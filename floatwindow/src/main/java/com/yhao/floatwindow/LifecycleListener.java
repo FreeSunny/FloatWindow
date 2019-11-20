@@ -5,7 +5,7 @@ package com.yhao.floatwindow;
  * https://github.com/yhaolpz
  */
 
-interface LifecycleListener {
+public interface LifecycleListener {
 
     void onShow();
 
