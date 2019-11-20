@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -35,4 +35,4 @@ dependencies {
 // JitPack Maven
 apply plugin: 'com.github.dcendents.android-maven'
 // Your Group
-group='com.github.yhaolpz'
+group = 'com.github.yhaolpz'

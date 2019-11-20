@@ -22,22 +22,33 @@ public class IFloatWindowImpl extends IFloatWindow {
 
 
     private FloatWindow.B mB;
+
     private FloatView mFloatView;
+
     private FloatLifecycle mFloatLifecycle;
+
     private boolean isShow;
+
     private boolean once = true;
+
     private ValueAnimator mAnimator;
+
     private TimeInterpolator mDecelerateInterpolator;
+
     private float downX;
+
     private float downY;
+
     private float upX;
+
     private float upY;
+
     private boolean mClick = false;
+
     private int mSlop;
 
 
     private IFloatWindowImpl() {
-
     }
 
     IFloatWindowImpl(FloatWindow.B b) {
@@ -55,7 +66,8 @@ public class IFloatWindowImpl extends IFloatWindow {
         mFloatView.setSize(mB.mWidth, mB.mHeight);
         mFloatView.setGravity(mB.gravity, mB.xOffset, mB.yOffset);
         mFloatView.setView(mB.mView);
-        mFloatLifecycle = new FloatLifecycle(mB.mApplicationContext, mB.mShow, mB.mActivities, new LifecycleListener() {
+        mFloatLifecycle = new FloatLifecycle(mB.mApplicationContext, mB.mShow, mB.mActivities, mB.lifecycleListener /*new LifecycleListener() {
+
             @Override
             public void onShow() {
                 show();
@@ -75,7 +87,7 @@ public class IFloatWindowImpl extends IFloatWindow {
                     mB.mViewStateListener.onBackToDesktop();
                 }
             }
-        });
+        }*/);
     }
 
     @Override
@@ -139,9 +151,8 @@ public class IFloatWindowImpl extends IFloatWindow {
     @Override
     public void updateX(int screenType, float ratio) {
         checkMoveType();
-        mB.xOffset = (int) ((screenType == Screen.width ?
-                Util.getScreenWidth(mB.mApplicationContext) :
-                Util.getScreenHeight(mB.mApplicationContext)) * ratio);
+        mB.xOffset = (int) ((screenType == Screen.width ? Util.getScreenWidth(mB.mApplicationContext) : Util
+                .getScreenHeight(mB.mApplicationContext)) * ratio);
         mFloatView.updateX(mB.xOffset);
 
     }
@@ -149,9 +160,8 @@ public class IFloatWindowImpl extends IFloatWindow {
     @Override
     public void updateY(int screenType, float ratio) {
         checkMoveType();
-        mB.yOffset = (int) ((screenType == Screen.width ?
-                Util.getScreenWidth(mB.mApplicationContext) :
-                Util.getScreenHeight(mB.mApplicationContext)) * ratio);
+        mB.yOffset = (int) ((screenType == Screen.width ? Util.getScreenWidth(mB.mApplicationContext) : Util
+                .getScreenHeight(mB.mApplicationContext)) * ratio);
         mFloatView.updateY(mB.yOffset);
 
     }
@@ -187,13 +197,14 @@ public class IFloatWindowImpl extends IFloatWindow {
                 break;
             default:
                 getView().setOnTouchListener(new View.OnTouchListener() {
+
                     float lastX, lastY, changeX, changeY;
+
                     int newX, newY;
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 downX = event.getRawX();
@@ -221,11 +232,13 @@ public class IFloatWindowImpl extends IFloatWindow {
                                 switch (mB.mMoveType) {
                                     case MoveType.slide:
                                         int startX = mFloatView.getX();
-                                        int endX = (startX * 2 + v.getWidth() > Util.getScreenWidth(mB.mApplicationContext)) ?
-                                                Util.getScreenWidth(mB.mApplicationContext) - v.getWidth() - mB.mSlideRightMargin :
-                                                mB.mSlideLeftMargin;
+                                        int endX = (startX * 2 + v.getWidth() > Util.getScreenWidth(
+                                                mB.mApplicationContext)) ? Util.getScreenWidth(mB.mApplicationContext) -
+                                                                           v.getWidth() -
+                                                                           mB.mSlideRightMargin : mB.mSlideLeftMargin;
                                         mAnimator = ObjectAnimator.ofInt(startX, endX);
                                         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
                                             @Override
                                             public void onAnimationUpdate(ValueAnimator animation) {
                                                 int x = (int) animation.getAnimatedValue();
@@ -238,10 +251,13 @@ public class IFloatWindowImpl extends IFloatWindow {
                                         startAnimator();
                                         break;
                                     case MoveType.back:
-                                        PropertyValuesHolder pvhX = PropertyValuesHolder.ofInt("x", mFloatView.getX(), mB.xOffset);
-                                        PropertyValuesHolder pvhY = PropertyValuesHolder.ofInt("y", mFloatView.getY(), mB.yOffset);
+                                        PropertyValuesHolder pvhX = PropertyValuesHolder.ofInt("x", mFloatView.getX(),
+                                                                                               mB.xOffset);
+                                        PropertyValuesHolder pvhY = PropertyValuesHolder.ofInt("y", mFloatView.getY(),
+                                                                                               mB.yOffset);
                                         mAnimator = ObjectAnimator.ofPropertyValuesHolder(pvhX, pvhY);
                                         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
                                             @Override
                                             public void onAnimationUpdate(ValueAnimator animation) {
                                                 int x = (int) animation.getAnimatedValue("x");
@@ -277,6 +293,7 @@ public class IFloatWindowImpl extends IFloatWindow {
         }
         mAnimator.setInterpolator(mB.mInterpolator);
         mAnimator.addListener(new AnimatorListenerAdapter() {
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 mAnimator.removeAllUpdateListeners();

@@ -20,6 +20,7 @@ import java.util.List;
 public class FloatActivity extends Activity {
 
     private static List<PermissionListener> mPermissionListenerList;
+
     private static PermissionListener mPermissionListener;
 
 
@@ -60,6 +61,7 @@ public class FloatActivity extends Activity {
         if (mPermissionListenerList == null) {
             mPermissionListenerList = new ArrayList<>();
             mPermissionListener = new PermissionListener() {
+
                 @Override
                 public void onSuccess() {
                     for (PermissionListener listener : mPermissionListenerList) {

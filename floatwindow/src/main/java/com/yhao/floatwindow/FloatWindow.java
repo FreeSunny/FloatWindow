@@ -21,10 +21,10 @@ import java.util.Map;
 public class FloatWindow {
 
     private FloatWindow() {
-
     }
 
     private static final String mDefaultTag = "default_float_window_tag";
+
     private static Map<String, IFloatWindow> mFloatWindowMap;
 
     public static IFloatWindow get() {
@@ -55,32 +55,57 @@ public class FloatWindow {
     }
 
     public static class B {
+
         Context mApplicationContext;
+
         View mView;
+
         private int mLayoutId;
+
         int mWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+
         int mHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
         int gravity = Gravity.TOP | Gravity.START;
+
         int xOffset;
+
         int yOffset;
+
         boolean mShow = true;
+
         Class[] mActivities;
+
         int mMoveType = MoveType.slide;
+
         int mSlideLeftMargin;
+
         int mSlideRightMargin;
+
         long mDuration = 300;
+
         TimeInterpolator mInterpolator;
+
         private String mTag = mDefaultTag;
+
         boolean mDesktopShow;
+
         PermissionListener mPermissionListener;
+
         ViewStateListener mViewStateListener;
 
-        private B() {
+        LifecycleListener lifecycleListener;
 
+        private B() {
         }
 
         B(Context applicationContext) {
             mApplicationContext = applicationContext;
+        }
+
+        public B setLifecycleListener(LifecycleListener lifecycleListener) {
+            this.lifecycleListener = lifecycleListener;
+            return this;
         }
 
         public B setView(@NonNull View view) {
@@ -104,17 +129,15 @@ public class FloatWindow {
         }
 
         public B setWidth(@Screen.screenType int screenType, float ratio) {
-            mWidth = (int) ((screenType == Screen.width ?
-                    Util.getScreenWidth(mApplicationContext) :
-                    Util.getScreenHeight(mApplicationContext)) * ratio);
+            mWidth = (int) ((screenType == Screen.width ? Util.getScreenWidth(mApplicationContext) : Util
+                    .getScreenHeight(mApplicationContext)) * ratio);
             return this;
         }
 
 
         public B setHeight(@Screen.screenType int screenType, float ratio) {
-            mHeight = (int) ((screenType == Screen.width ?
-                    Util.getScreenWidth(mApplicationContext) :
-                    Util.getScreenHeight(mApplicationContext)) * ratio);
+            mHeight = (int) ((screenType == Screen.width ? Util.getScreenWidth(mApplicationContext) : Util
+                    .getScreenHeight(mApplicationContext)) * ratio);
             return this;
         }
 
@@ -130,16 +153,14 @@ public class FloatWindow {
         }
 
         public B setX(@Screen.screenType int screenType, float ratio) {
-            xOffset = (int) ((screenType == Screen.width ?
-                    Util.getScreenWidth(mApplicationContext) :
-                    Util.getScreenHeight(mApplicationContext)) * ratio);
+            xOffset = (int) ((screenType == Screen.width ? Util.getScreenWidth(mApplicationContext) : Util
+                    .getScreenHeight(mApplicationContext)) * ratio);
             return this;
         }
 
         public B setY(@Screen.screenType int screenType, float ratio) {
-            yOffset = (int) ((screenType == Screen.width ?
-                    Util.getScreenWidth(mApplicationContext) :
-                    Util.getScreenHeight(mApplicationContext)) * ratio);
+            yOffset = (int) ((screenType == Screen.width ? Util.getScreenWidth(mApplicationContext) : Util
+                    .getScreenHeight(mApplicationContext)) * ratio);
             return this;
         }
 
@@ -206,7 +227,8 @@ public class FloatWindow {
                 mFloatWindowMap = new HashMap<>();
             }
             if (mFloatWindowMap.containsKey(mTag)) {
-                throw new IllegalArgumentException("FloatWindow of this tag has been added, Please set a new tag for the new FloatWindow");
+                throw new IllegalArgumentException(
+                        "FloatWindow of this tag has been added, Please set a new tag for the new FloatWindow");
             }
             if (mView == null && mLayoutId == 0) {
                 throw new IllegalArgumentException("View has not been set!");

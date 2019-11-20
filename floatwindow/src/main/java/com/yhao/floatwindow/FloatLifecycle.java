@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
 /**
  * Created by yhao on 17-12-1.
@@ -22,27 +21,37 @@ import android.widget.Toast;
 class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLifecycleCallbacks {
 
     private static final String SYSTEM_DIALOG_REASON_KEY = "reason";
+
     private static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+
     private static final long delay = 300;
+
     private Handler mHandler;
+
     private Class[] activities;
+
     private boolean showFlag;
+
     private int startCount;
+
     private int resumeCount;
+
     private boolean appBackground;
+
     private LifecycleListener mLifecycleListener;
+
     private static ResumedListener sResumedListener;
+
     private static int num = 0;
 
-
-    FloatLifecycle(Context applicationContext, boolean showFlag, Class[] activities, LifecycleListener lifecycleListener) {
+    FloatLifecycle(Context context, boolean showFlag, Class[] activities, LifecycleListener lifecycleListener) {
         this.showFlag = showFlag;
         this.activities = activities;
         num++;
         mLifecycleListener = lifecycleListener;
         mHandler = new Handler();
-        ((Application) applicationContext).registerActivityLifecycleCallbacks(this);
-        applicationContext.registerReceiver(this, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        ((Application) context).registerActivityLifecycleCallbacks(this);
+        context.registerReceiver(this, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
     public static void setResumedListener(ResumedListener resumedListener) {
@@ -86,6 +95,7 @@ class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLi
     public void onActivityPaused(final Activity activity) {
         resumeCount--;
         mHandler.postDelayed(new Runnable() {
+
             @Override
             public void run() {
                 if (resumeCount == 0) {
@@ -125,18 +135,15 @@ class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLi
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
     }
 
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-
     }
 
 

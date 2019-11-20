@@ -16,8 +16,8 @@ import java.io.InputStreamReader;
 class Rom {
 
     static boolean isIntentAvailable(Intent intent, Context context) {
-        return intent != null && context.getPackageManager().queryIntentActivities(
-                intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
+        return intent != null && context.getPackageManager().queryIntentActivities(intent,
+                                                                                   PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
 
 
