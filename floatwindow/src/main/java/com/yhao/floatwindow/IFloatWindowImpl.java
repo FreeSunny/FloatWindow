@@ -218,6 +218,18 @@ public class IFloatWindowImpl extends IFloatWindow {
                                 changeY = event.getRawY() - lastY;
                                 newX = (int) (mFloatView.getX() + changeX);
                                 newY = (int) (mFloatView.getY() + changeY);
+                                if (newX < 0) {
+                                    newX = 0;
+                                }
+                                if (newX > Util.getScreenWidth(mB.mApplicationContext)) {
+                                    newX = Util.getScreenWidth(mB.mApplicationContext);
+                                }
+                                if (newY < 0) {
+                                    newY = 0;
+                                }
+                                if (newY > Util.getScreenHeight(mB.mApplicationContext)) {
+                                    newY = Util.getScreenHeight(mB.mApplicationContext);
+                                }
                                 mFloatView.updateXY(newX, newY);
                                 if (mB.mViewStateListener != null) {
                                     mB.mViewStateListener.onPositionUpdate(newX, newY);
