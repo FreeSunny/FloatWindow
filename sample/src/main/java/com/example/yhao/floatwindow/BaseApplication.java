@@ -1,7 +1,6 @@
 package com.example.yhao.floatwindow;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
@@ -70,7 +69,7 @@ public class BaseApplication extends Application {
 
     private ViewStateListener mViewStateListener = new ViewStateListener() {
         @Override
-        public void onPositionUpdate(int x, int y) {
+        public void onPositionUpdate(int action, int x, int y) {
             Log.d(TAG, "onPositionUpdate: x=" + x + " y=" + y);
         }
 

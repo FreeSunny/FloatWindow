@@ -5,7 +5,7 @@ package com.yhao.floatwindow;
  * https://github.com/yhaolpz
  */
 public interface ViewStateListener {
-    void onPositionUpdate(int x, int y);
+    void onPositionUpdate(int type, int x, int y);
 
     void onShow();
 

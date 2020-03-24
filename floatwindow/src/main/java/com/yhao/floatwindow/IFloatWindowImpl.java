@@ -232,7 +232,7 @@ public class IFloatWindowImpl extends IFloatWindow {
                                 }
                                 mFloatView.updateXY(newX, newY);
                                 if (mB.mViewStateListener != null) {
-                                    mB.mViewStateListener.onPositionUpdate(newX, newY);
+                                    mB.mViewStateListener.onPositionUpdate(MotionEvent.ACTION_MOVE, newX, newY);
                                 }
                                 lastX = event.getRawX();
                                 lastY = event.getRawY();
@@ -256,7 +256,7 @@ public class IFloatWindowImpl extends IFloatWindow {
                                                 int x = (int) animation.getAnimatedValue();
                                                 mFloatView.updateX(x);
                                                 if (mB.mViewStateListener != null) {
-                                                    mB.mViewStateListener.onPositionUpdate(x, (int) upY);
+                                                    mB.mViewStateListener.onPositionUpdate(MotionEvent.ACTION_UP, x, (int) upY);
                                                 }
                                             }
                                         });
@@ -276,7 +276,7 @@ public class IFloatWindowImpl extends IFloatWindow {
                                                 int y = (int) animation.getAnimatedValue("y");
                                                 mFloatView.updateXY(x, y);
                                                 if (mB.mViewStateListener != null) {
-                                                    mB.mViewStateListener.onPositionUpdate(x, y);
+                                                    mB.mViewStateListener.onPositionUpdate(MotionEvent.ACTION_UP, x, y);
                                                 }
                                             }
                                         });
