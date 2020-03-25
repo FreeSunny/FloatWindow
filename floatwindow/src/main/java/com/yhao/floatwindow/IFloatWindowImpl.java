@@ -115,6 +115,12 @@ public class IFloatWindowImpl extends IFloatWindow {
 
     @Override
     void orientationChanged(int ori) {
+        View view = getView();
+        // do not callback if no view.
+        if (view == null || view.getParent() == null) {
+            return;
+        }
+
         updateXYWithLimit(getX(), getY());
 
         if (mB.mViewStateListener != null) {
