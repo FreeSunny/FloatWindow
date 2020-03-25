@@ -6,6 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/floatwindow/FloatWindow-floatwindow.iml" filepath="$PROJECT_DIR$/floatwindow/FloatWindow-floatwindow.iml" group="FloatWindow/floatwindow" />
       <module fileurl="file://$PROJECT_DIR$/sample/FloatWindow-sample.iml" filepath="$PROJECT_DIR$/sample/FloatWindow-sample.iml" group="FloatWindow/sample" />
       <module fileurl="file://$PROJECT_DIR$/NRTC-FloatWindow.iml" filepath="$PROJECT_DIR$/NRTC-FloatWindow.iml" group="FloatWindow" />
+      <module fileurl="file://$PROJECT_DIR$/avproject-FloatWindow.iml" filepath="$PROJECT_DIR$/avproject-FloatWindow.iml" group="FloatWindow" />
+      <module fileurl="file://$PROJECT_DIR$/floatwindow/avproject-FloatWindow-floatwindow.iml" filepath="$PROJECT_DIR$/floatwindow/avproject-FloatWindow-floatwindow.iml" group="FloatWindow/floatwindow" />
+      <module fileurl="file://$PROJECT_DIR$/sample/avproject-FloatWindow-sample.iml" filepath="$PROJECT_DIR$/sample/avproject-FloatWindow-sample.iml" group="FloatWindow/sample" />
       <module fileurl="file://$PROJECT_DIR$/floatwindow/floatwindow.iml" filepath="$PROJECT_DIR$/floatwindow/floatwindow.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>

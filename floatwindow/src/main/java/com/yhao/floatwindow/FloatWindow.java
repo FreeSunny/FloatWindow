@@ -1,7 +1,10 @@
 package com.yhao.floatwindow;
 
 import android.animation.TimeInterpolator;
+import android.app.Application;
+import android.content.ComponentCallbacks;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -20,12 +23,34 @@ import java.util.Map;
 
 public class FloatWindow {
 
-    private FloatWindow() {
+    private FloatWindow(Context applicationContext) {
+        Application application = (Application) applicationContext;
+        application.registerComponentCallbacks(new ComponentCallbacks() {
+            @Override
+            public void onConfigurationChanged(Configuration configuration) {
+                // 屏幕方向变化
+                Util.orientationChanged();
+
+                int ori = configuration.orientation;
+                for (IFloatWindow window : mFloatWindowMap.values()) {
+                    if (window != null) {
+                        window.orientationChanged(ori);
+                    }
+                }
+            }
+
+            @Override
+            public void onLowMemory() {
+
+            }
+        });
     }
 
     private static final String mDefaultTag = "default_float_window_tag";
 
     private static Map<String, IFloatWindow> mFloatWindowMap;
+
+    private static FloatWindow sInstance;
 
     public static IFloatWindow get() {
         return get(mDefaultTag);
@@ -35,11 +60,13 @@ public class FloatWindow {
         return mFloatWindowMap == null ? null : mFloatWindowMap.get(tag);
     }
 
-    private static B mBuilder = null;
-
     @MainThread
-    public static B with(@NonNull Context applicationContext) {
-        return mBuilder = new B(applicationContext);
+    public synchronized static B with(@NonNull Context applicationContext) {
+        if (sInstance == null) {
+            sInstance = new FloatWindow(applicationContext);
+        }
+
+        return new B(applicationContext);
     }
 
     public static void destroy() {

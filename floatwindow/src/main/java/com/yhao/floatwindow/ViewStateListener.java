@@ -17,5 +17,5 @@ public interface ViewStateListener {
 
     void onMoveAnimEnd();
 
-    void onBackToDesktop();
+    void onOrientationChanged(int i);
 }
