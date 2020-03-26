@@ -49,4 +49,8 @@ class Util {
     static boolean isViewVisible(View view) {
         return view.getGlobalVisibleRect(new Rect());
     }
+
+    static void orientationChanged() {
+        sPoint = null;
+    }
 }

@@ -47,7 +47,6 @@ public class IFloatWindowImpl extends IFloatWindow {
 
     private int mSlop;
 
-
     private IFloatWindowImpl() {
     }
 
@@ -66,28 +65,7 @@ public class IFloatWindowImpl extends IFloatWindow {
         mFloatView.setSize(mB.mWidth, mB.mHeight);
         mFloatView.setGravity(mB.gravity, mB.xOffset, mB.yOffset);
         mFloatView.setView(mB.mView);
-        mFloatLifecycle = new FloatLifecycle(mB.mApplicationContext, mB.mShow, mB.mActivities, mB.lifecycleListener /*new LifecycleListener() {
-
-            @Override
-            public void onShow() {
-                show();
-            }
-
-            @Override
-            public void onHide() {
-                hide();
-            }
-
-            @Override
-            public void onBackToDesktop() {
-                if (!mB.mDesktopShow) {
-                    hide();
-                }
-                if (mB.mViewStateListener != null) {
-                    mB.mViewStateListener.onBackToDesktop();
-                }
-            }
-        }*/);
+        mFloatLifecycle = new FloatLifecycle(mB.mApplicationContext, mB.mShow, mB.mActivities, mB.lifecycleListener);
     }
 
     @Override
@@ -103,6 +81,7 @@ public class IFloatWindowImpl extends IFloatWindow {
             getView().setVisibility(View.VISIBLE);
             isShow = true;
         }
+
         if (mB.mViewStateListener != null) {
             mB.mViewStateListener.onShow();
         }
@@ -131,6 +110,21 @@ public class IFloatWindowImpl extends IFloatWindow {
         isShow = false;
         if (mB.mViewStateListener != null) {
             mB.mViewStateListener.onDismiss();
+        }
+    }
+
+    @Override
+    void orientationChanged(int ori) {
+        View view = getView();
+        // do not callback if no view.
+        if (view == null || view.getParent() == null) {
+            return;
+        }
+
+        updateXYWithLimit(getX(), getY());
+
+        if (mB.mViewStateListener != null) {
+            mB.mViewStateListener.onOrientationChanged(ori);
         }
     }
 
@@ -218,19 +212,7 @@ public class IFloatWindowImpl extends IFloatWindow {
                                 changeY = event.getRawY() - lastY;
                                 newX = (int) (mFloatView.getX() + changeX);
                                 newY = (int) (mFloatView.getY() + changeY);
-                                if (newX < 0) {
-                                    newX = 0;
-                                }
-                                if (newX > Util.getScreenWidth(mB.mApplicationContext) - v.getWidth()) {
-                                    newX = Util.getScreenWidth(mB.mApplicationContext) - v.getWidth();
-                                }
-                                if (newY < 0) {
-                                    newY = 0;
-                                }
-                                if (newY > Util.getScreenHeight(mB.mApplicationContext) - v.getHeight()) {
-                                    newY = Util.getScreenHeight(mB.mApplicationContext) - v.getHeight();
-                                }
-                                mFloatView.updateXY(newX, newY);
+                                updateXYWithLimit(newX, newY);
                                 if (mB.mViewStateListener != null) {
                                     mB.mViewStateListener.onPositionUpdate(MotionEvent.ACTION_MOVE, newX, newY);
                                 }
@@ -293,6 +275,23 @@ public class IFloatWindowImpl extends IFloatWindow {
                     }
                 });
         }
+    }
+
+    private void updateXYWithLimit(int newX, int newY) {
+        View v = getView();
+        if (newX < 0) {
+            newX = 0;
+        }
+        if (newX > Util.getScreenWidth(mB.mApplicationContext) - v.getWidth()) {
+            newX = Util.getScreenWidth(mB.mApplicationContext) - v.getWidth();
+        }
+        if (newY < 0) {
+            newY = 0;
+        }
+        if (newY > Util.getScreenHeight(mB.mApplicationContext) - v.getHeight()) {
+            newY = Util.getScreenHeight(mB.mApplicationContext) - v.getHeight();
+        }
+        mFloatView.updateXY(newX, newY);
     }
 
 

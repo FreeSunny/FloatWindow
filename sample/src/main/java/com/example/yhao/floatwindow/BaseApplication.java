@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.yhao.fixedfloatwindow.R;
 import com.yhao.floatwindow.FloatWindow;
+import com.yhao.floatwindow.LifecycleListener;
 import com.yhao.floatwindow.MoveType;
 import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
@@ -21,7 +22,6 @@ import com.yhao.floatwindow.ViewStateListener;
 
 public class BaseApplication extends Application {
 
-
     private static final String TAG = "FloatWindow";
 
     @Override
@@ -32,7 +32,7 @@ public class BaseApplication extends Application {
         imageView.setImageResource(R.drawable.icon);
 
         FloatWindow
-                .with(getApplicationContext())
+                .with(this)
                 .setView(imageView)
                 .setWidth(Screen.width, 0.2f) //设置悬浮控件宽高
                 .setHeight(Screen.width, 0.2f)
@@ -43,6 +43,22 @@ public class BaseApplication extends Application {
                 .setFilter(true, A_Activity.class, C_Activity.class)
                 .setViewStateListener(mViewStateListener)
                 .setPermissionListener(mPermissionListener)
+                .setLifecycleListener(new LifecycleListener() {
+                    @Override
+                    public void onShow() {
+
+                    }
+
+                    @Override
+                    public void onHide() {
+
+                    }
+
+                    @Override
+                    public void onBackToDesktop() {
+
+                    }
+                })
                 .setDesktopShow(true)
                 .build();
 
@@ -99,8 +115,8 @@ public class BaseApplication extends Application {
         }
 
         @Override
-        public void onBackToDesktop() {
-            Log.d(TAG, "onBackToDesktop");
+        public void onOrientationChanged(int i) {
+            Log.d(TAG, "onOrientationUpdate:" + i);
         }
     };
 }
